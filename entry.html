@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Weather App</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+  <body>
+    <section class="container">
+      <div class="city-input-container">
+        <input
+          class="city-name"
+          autocomplete="disabled"
+          type="text"
+          placeholder="Enter City Name"
+        />
+        <button class="city-search" type="submit">Search</button>
+      </div>
+      <!-- Implement loading here -->
+      <!-- <span class="loading"> ...loading </span> -->
+      <div class="display">
+        <div class="temp-icon">
+          <img class="display-weather-icon" />
+          <span class="display-current-temp"></span>
+        </div>
+        <div class="city-name-date-block">
+          <span class="display-city-name"></span>
+          <span class="display-date"></span>
+        </div>
+        <span class="display-temp-min-max"></span>
+        <span class="display-humidity"></span>
+      </div>
+    </section>
+
+    <script src="./js/index.js" async defer></script>
+  </body>
+</html>

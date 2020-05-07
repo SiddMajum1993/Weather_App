@@ -1,0 +1,72 @@
+textarea:focus,
+button:focus,
+input:focus {
+  outline: none;
+}
+input,
+button {
+  font-size: 14px;
+}
+
+body {
+  font-size: 19px;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 2rem;
+  width: 400px;
+  height: 400px;
+  box-shadow: 0 0 5rem #100e17;
+  border-radius: 1rem;
+}
+
+.city-input-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.city-name {
+  padding: 0.5rem 1rem;
+  border: 1px solid #100e17;
+  border-radius: 2rem;
+}
+
+.city-search {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.container .display {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4rem;
+  padding: 0 1rem;
+}
+
+.container .display span {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.display span {
+  color: #878787;
+}
+.display-current-temp {
+  font-size: 4rem;
+  color: #212121 !important
+}
+
+.city-name-date-block {
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.temp-icon {
+  display: flex;
+  justify-content: space-around;
+}
