@@ -6,9 +6,10 @@ const KELVIN_CONST = 273.15;
 const DEGREE = "&#8451";
 const PERCENT = "&#37";
 
-
 let stroage = window.localStorage;
 let today = new Date();
+// const cityNames = stroage.getItem('cityNames');
+let cityNames = [];
 
 /** Added event listner to button to trigger search opperation on click */
 let ele = document.getElementsByClassName("city-input-container")[0];
@@ -21,24 +22,24 @@ if (ele) {
 /** Search fucntion
  * This function makes call to weather api to get details of the weather
  */
-function searchCityWeather(){
-    let name = ele.getElementsByClassName("city-name")[0].value;
-      if (!name) return;
-      let wData = getDataFromLocalStorage(name);
-      if (!wData) {
-        fetch(getApiURL(name))
-          .then(response => response.json())
-          .then(data => {
-            setDataToDisplay(data);
-            setDataToLocalStroage(name, data);
-          })
-          .catch(error => console.error(error));
-      } else {
-        setDataToDisplay(wData);
-      }
+function searchCityWeather() {
+  let name = ele.getElementsByClassName("city-name")[0].value;
+  if (!name) return;
+  let wData = getDataFromLocalStorage(name);
+  if (!wData) {
+    fetch(getApiURL(name))
+      .then(response => response.json())
+      .then(data => {
+        setDataToDisplay(data);
+        setDataToLocalStroage(name, data);
+      })
+      .catch(error => console.error(error));
+  } else {
+    setDataToDisplay(wData);
+  }
 }
 
-/** 
+/**
  * Caching functions to store fetched data
  * Storing data with lastmodified time
  * data should only update if it more that 10mins old
@@ -63,7 +64,7 @@ function getDataFromLocalStorage(name) {
   }
 }
 
-/** 
+/**
  * DOM manipulation function
  * this sets all the data to the dom
  */
@@ -85,9 +86,9 @@ function setDataToDisplay(data) {
   );
   setDynamicValue(
     "display-city-name",
-    weatherData.name + " , " + weatherData.sys.country
+    weatherData.name + ", " + weatherData.sys.country
   );
-  setDynamicValue("display-date", today.toLocaleDateString());
+  setDynamicValue("display-date", getDateFromUNIXtime(weatherData.dt));
   setDynamicValue("display-current-temp", curTemp + " " + DEGREE);
   setDynamicValue(
     "display-temp-min-max",
@@ -126,3 +127,61 @@ function getApiURL(cityName) {
     "";
   return URL;
 }
+
+function getDateFromUNIXtime(timeStamp) {
+  const date = new Date(timeStamp * 1000);
+  return date.toLocaleDateString();
+}
+
+// Search weather when user presses enter
+
+function handleKeyPress(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault(); // Ensure it is only this code that rusn
+    searchCityWeather();
+  }
+}
+
+// get all the list of cities
+Promise.resolve().then(() => {
+  if (!(cityNames && cityNames.length))
+    fetch("../data/cityList.json")
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        // stroage.setItem('cityNames', JSON.stringify(data));
+        cityNames = [...data];
+      });
+});
+
+// Debounce function
+
+function debounce(func, wait, immediate) {
+  let timeout;
+  return function() {
+    let context = this,
+      args = arguments[0].target;
+    let later = function() {
+      timeout = null;
+      if (!immediate) func.call(context, args);
+    };
+    let callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
+
+// This functions searches all the city name based on input.
+
+let getCityNames = debounce(function() {
+  const query = ele.getElementsByClassName("city-name")[0].value;
+  if (cityNames) {
+    const filteredCityList = cityNames.filter(city => {
+      const regex = new RegExp(`^${query}`, "gi");
+      return city.name.match(regex);
+    });
+    console.log(filteredCityList);
+  }
+}, 500);
+

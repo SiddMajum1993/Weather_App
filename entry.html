@@ -15,12 +15,15 @@
   </head>
   <body>
     <section class="container">
+      <!-- SearchBox for Weather -->
       <div class="city-input-container">
         <input
           class="city-name"
           autocomplete="disabled"
           type="text"
           placeholder="Enter City Name"
+          onkeypress="handleKeyPress(event)"
+          oninput="getCityNames(event)"
         />
         <button class="city-search" type="submit">Search</button>
       </div>
